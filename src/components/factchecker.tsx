@@ -513,36 +513,48 @@ export function FactChecker({ initialText }: { initialText?: string }) {
               className="border-border/50 bg-card/50 backdrop-blur-sm"
             >
               <CardHeader>
-                <div className="flex items-start justify-between gap-4">
-                  <div className="space-y-2">
-                    <CardTitle className="text-lg leading-tight">
+                <div className="grid grid-cols-1 sm:grid-cols-[1fr_auto] gap-2 items-start w-full">
+                  {/* Left: title + type */}
+                  <div className="min-w-0">
+                    <CardTitle className="text-lg leading-tight truncate">
                       {claim.short_claim}
                     </CardTitle>
-                    <Badge variant="outline" className="text-xs">
-                      {claim.claim_type}
-                    </Badge>
+                    <div className="mt-1">
+                      <Badge variant="outline" className="text-xs">
+                        {claim.claim_type}
+                      </Badge>
+                    </div>
                   </div>
+
+                  {/* Right: verdict + confidence (single block, works on mobile & desktop) */}
                   {claim.evidence_result && (
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-2 flex-wrap sm:justify-end">
                       <Badge
                         variant={
                           getVerdictColor(claim.evidence_result.verdict) as any
                         }
-                        className="flex items-center gap-2 text-base font-semibold px-3 py-1.5"
+                        className="flex items-center gap-2 text-sm font-semibold px-3 py-1.5 whitespace-nowrap"
                       >
                         {getVerdictIcon(claim.evidence_result.verdict)}
-                        {claim.evidence_result.verdict.toUpperCase()}
+                        <span className="uppercase">
+                          {claim.evidence_result.verdict}
+                        </span>
                       </Badge>
+
                       <Badge
                         variant="outline"
-                        className="text-base font-semibold px-3 py-1.5"
+                        className="text-sm font-semibold px-3 py-1.5 whitespace-nowrap"
                       >
-                        {claim.evidence_result.confidence}% Confidence
+                        <span dir="ltr">
+                          {Math.round(claim.evidence_result.confidence)}%
+                        </span>{" "}
+                        Confidence
                       </Badge>
                     </div>
                   )}
                 </div>
               </CardHeader>
+
               <CardContent className="space-y-4">
                 <div>
                   <h4 className="font-semibold mb-2">Original Quote:</h4>
@@ -607,81 +619,87 @@ export function FactChecker({ initialText }: { initialText?: string }) {
                       </p>
 
                       {claim.evidence_result.supporting_evidence.length > 0 && (
-                        <div className="space-y-3">
-                          <h5 className="font-medium text-sm text-success">
-                            Supporting Evidence:
-                          </h5>
-                          {claim.evidence_result.supporting_evidence.map(
-                            (evidence, idx) => (
-                              <div
-                                key={idx}
-                                className="space-y-2 p-3 rounded-lg border border-border/30 bg-green-400/30"
-                              >
-                                <div className="flex items-start justify-between gap-2">
-                                  <h6 className="font-medium text-sm leading-tight">
-                                    {evidence.title}
-                                  </h6>
-                                  <Button
-                                    variant="ghost"
-                                    size="sm"
-                                    className="h-6 w-6 p-0 shrink-0"
-                                    asChild
-                                  >
-                                    <a
-                                      href={evidence.url}
-                                      target="_blank"
-                                      rel="noopener noreferrer"
+                        <>
+                          <Separator className="my-4" />
+                          <div className="space-y-3">
+                            <h5 className="font-medium text-sm text-success">
+                              Supporting Evidence:
+                            </h5>
+                            {claim.evidence_result.supporting_evidence.map(
+                              (evidence, idx) => (
+                                <div
+                                  key={idx}
+                                  className="space-y-2 p-3 rounded-lg border border-border/30 bg-green-400/30"
+                                >
+                                  <div className="flex items-start justify-between gap-2">
+                                    <h6 className="font-medium text-sm leading-tight">
+                                      {evidence.title}
+                                    </h6>
+                                    <Button
+                                      variant="ghost"
+                                      size="sm"
+                                      className="h-6 w-6 p-0 shrink-0"
+                                      asChild
                                     >
-                                      <ExternalLink className="h-3 w-3" />
-                                    </a>
-                                  </Button>
+                                      <a
+                                        href={evidence.url}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                      >
+                                        <ExternalLink className="h-3 w-3" />
+                                      </a>
+                                    </Button>
+                                  </div>
+                                  <p className="text-xs text-muted-foreground leading-relaxed">
+                                    {evidence.snippet}
+                                  </p>
                                 </div>
-                                <p className="text-xs text-muted-foreground leading-relaxed">
-                                  {evidence.snippet}
-                                </p>
-                              </div>
-                            )
-                          )}
-                        </div>
+                              )
+                            )}
+                          </div>
+                        </>
                       )}
 
                       {claim.evidence_result.refuting_evidence.length > 0 && (
-                        <div className="space-y-3">
-                          <h5 className="font-medium text-sm text-success">
-                            Refuting Evidence:
-                          </h5>
-                          {claim.evidence_result.refuting_evidence.map(
-                            (evidence, idx) => (
-                              <div
-                                key={idx}
-                                className="space-y-2 p-3 rounded-lg border border-border/30 bg-red-400/30"
-                              >
-                                <div className="flex items-start justify-between gap-2">
-                                  <h6 className="font-medium text-sm leading-tight">
-                                    {evidence.title}
-                                  </h6>
-                                  <Button
-                                    variant="ghost"
-                                    size="sm"
-                                    className="h-6 w-6 p-0 shrink-0"
-                                    asChild
-                                  >
-                                    <a
-                                      href={evidence.url}
-                                      target="_blank"
-                                      rel="noopener noreferrer"
+                        <>
+                          <Separator className="my-4" />
+                          <div className="space-y-3 mt-4">
+                            <h5 className="font-medium text-sm text-success">
+                              Refuting Evidence:
+                            </h5>
+                            {claim.evidence_result.refuting_evidence.map(
+                              (evidence, idx) => (
+                                <div
+                                  key={idx}
+                                  className="space-y-2 p-3 rounded-lg border border-border/30 bg-red-400/30"
+                                >
+                                  <div className="flex items-start justify-between gap-2">
+                                    <h6 className="font-medium text-sm leading-tight">
+                                      {evidence.title}
+                                    </h6>
+                                    <Button
+                                      variant="ghost"
+                                      size="sm"
+                                      className="h-6 w-6 p-0 shrink-0"
+                                      asChild
                                     >
-                                      <ExternalLink className="h-3 w-3" />
-                                    </a>
-                                  </Button>
+                                      <a
+                                        href={evidence.url}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                      >
+                                        <ExternalLink className="h-3 w-3" />
+                                      </a>
+                                    </Button>
+                                  </div>
+                                  <p className="text-xs text-muted-foreground leading-relaxed">
+                                    {evidence.snippet}
+                                  </p>
                                 </div>
-                                <p className="text-xs text-muted-foreground leading-relaxed">
-                                  {evidence.snippet}
-                                </p>
-                              </div>
-                            )
-                          )}
-                        </div>
+                              )
+                            )}
+                          </div>
+                        </>
                       )}
                     </div>
                   </>

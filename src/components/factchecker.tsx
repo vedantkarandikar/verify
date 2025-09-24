@@ -531,7 +531,9 @@ export function FactChecker({ initialText }: { initialText?: string }) {
                     <div className="flex items-center gap-2 flex-wrap sm:justify-end">
                       <Badge
                         variant={
-                          getVerdictColor(claim.evidence_result.verdict) as any
+                          getVerdictColor(
+                            claim.evidence_result.verdict.toLowerCase()
+                          ) as any
                         }
                         className="flex items-center gap-2 text-sm font-semibold px-3 py-1.5 whitespace-nowrap"
                       >

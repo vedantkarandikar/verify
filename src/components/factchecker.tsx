@@ -547,7 +547,7 @@ export function FactChecker({ initialText }: { initialText?: string }) {
                 <div>
                   <h4 className="font-semibold mb-2">Original Quote:</h4>
                   <p className="text-muted-foreground text-sm leading-relaxed italic">
-                    "{claim.original_text_excerpt}"
+                    &quot;{claim.original_text_excerpt}&quot;
                   </p>
                 </div>
 

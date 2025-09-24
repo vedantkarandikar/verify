@@ -39,8 +39,8 @@ export default function Home() {
           {/* accessibility + small footer */}
           <div className="mt-6 text-sm text-gray-600">
             <p>
-              Tip: Use your browser's zoom (Cmd/Ctrl + / -) to increase text
-              size.
+              Tip: Use your browser&apos;s zoom (Cmd/Ctrl + / -) to increase
+              text size.
             </p>
           </div>
         </section>

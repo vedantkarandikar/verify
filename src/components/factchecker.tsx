@@ -216,6 +216,8 @@ export function FactChecker({ initialText }: { initialText?: string }) {
       case "true":
       case "mostly true":
         return "success";
+      case "likely true":
+        return "success_light";
       case "false":
       case "likely false":
       case "mostly false":
@@ -223,6 +225,7 @@ export function FactChecker({ initialText }: { initialText?: string }) {
       case "mixed":
       case "unverified":
       case "insufficient evidence":
+      case "misleading":
         return "warning";
       default:
         return "secondary";
@@ -516,7 +519,7 @@ export function FactChecker({ initialText }: { initialText?: string }) {
                 <div className="grid grid-cols-1 sm:grid-cols-[1fr_auto] gap-2 items-start w-full">
                   {/* Left: title + type */}
                   <div className="min-w-0">
-                    <CardTitle className="text-lg leading-tight truncate">
+                    <CardTitle className="text-lg leading-tight">
                       {claim.short_claim}
                     </CardTitle>
                     <div className="mt-1">
@@ -565,7 +568,7 @@ export function FactChecker({ initialText }: { initialText?: string }) {
                   </p>
                 </div>
 
-                {claim.claim_checks && (
+                {/* {claim.claim_checks && (
                   <>
                     <Separator />
                     <div>
@@ -606,7 +609,7 @@ export function FactChecker({ initialText }: { initialText?: string }) {
                       </div>
                     </div>
                   </>
-                )}
+                )} */}
 
                 {claim.evidence_result ? (
                   <>

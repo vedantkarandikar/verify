@@ -60,7 +60,7 @@ export default function Home() {
           data-ad-format="auto"
           data-full-width-responsive="true"
         ></ins>
-        <Script>{`(adsbygoogle = window.adsbygoogle || []).push({});`}</Script>
+        <Script id="adsbygoogle-init">{`(adsbygoogle = window.adsbygoogle || []).push({});`}</Script>
       </div>
 
       {/* Sticky footer */}

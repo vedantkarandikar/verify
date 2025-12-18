@@ -45,6 +45,24 @@ export default function Home() {
         </section>
       </div>
 
+      <Script
+        async
+        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1437712199568747"
+        crossOrigin="anonymous"
+      />
+      {/* Verify - Default Footer */}
+      <div className="mt-6">
+        <ins
+          className="adsbygoogle"
+          style={{ display: "block" }}
+          data-ad-client="ca-pub-1437712199568747"
+          data-ad-slot="1555816674"
+          data-ad-format="auto"
+          data-full-width-responsive="true"
+        ></ins>
+        <Script>{`(adsbygoogle = window.adsbygoogle || []).push({});`}</Script>
+      </div>
+
       {/* Sticky footer */}
       <footer className="mt-auto text-center text-sm text-gray-500 py-4">
         Made with ❤️ by{" "}

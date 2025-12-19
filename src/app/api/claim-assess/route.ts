@@ -2,7 +2,7 @@
 import { NextResponse } from "next/server";
 
 const AGENT = process.env.FLUO_AGENT_ID_ASSESS ?? "agent-UmeIQIjx2QahQJfcT0";
-const TIMEOUT_MS = 25000;
+const TIMEOUT_MS = 50000;
 
 function fetchWithTimeout(
   input: RequestInfo,

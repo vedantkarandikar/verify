@@ -206,6 +206,7 @@ export function FactChecker({ initialText }: { initialText?: string }) {
   const [input, setInput] = useState(initialText ?? "");
   const [isExtracting, setIsExtracting] = useState(false);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [isAnyEvidenceChecking, setIsAnyEvidenceChecking] = useState(false);
   const [claims, setClaims] = useState<ProcessedClaim[]>([]);
   const [inputType, setInputType] = useState<"text" | "url">("text");
   const [overallScore, setOverallScore] = useState<number | null>(null);
@@ -326,6 +327,8 @@ export function FactChecker({ initialText }: { initialText?: string }) {
     claimId: number,
     claimParam?: ProcessedClaim
   ) => {
+    if (isAnyEvidenceChecking) return;
+
     const claim = claimParam ?? claims.find((c) => c.id === claimId);
     if (!claim) {
       console.warn("handleEvidenceCheck: claim not found", { claimId });
@@ -333,6 +336,7 @@ export function FactChecker({ initialText }: { initialText?: string }) {
     }
 
     // show spinner
+    setIsAnyEvidenceChecking(true);
     setClaims((prev) =>
       prev.map((c) =>
         c.id === claimId ? { ...c, evidence_checking: true } : c
@@ -466,6 +470,8 @@ export function FactChecker({ initialText }: { initialText?: string }) {
             : c
         )
       );
+    } finally {
+      setIsAnyEvidenceChecking(false);
     }
   };
 
@@ -726,9 +732,10 @@ export function FactChecker({ initialText }: { initialText?: string }) {
                   !claim.evidence_checking && (
                     <>
                       <Separator />
-                      <div className="flex justify-center">
+                      <div className="flex flex-col items-center gap-2">
                         <Button
                           onClick={() => handleEvidenceCheck(claim.id)}
+                          disabled={isAnyEvidenceChecking}
                           variant="outline"
                           className="flex items-center gap-2"
                         >
@@ -738,6 +745,12 @@ export function FactChecker({ initialText }: { initialText?: string }) {
                             ~10s
                           </Badge>
                         </Button>
+                        {isAnyEvidenceChecking && (
+                          <p className="text-xs text-muted-foreground animate-pulse">
+                            Another check in progress. Please let others
+                            complete...
+                          </p>
+                        )}
                       </div>
                     </>
                   )
